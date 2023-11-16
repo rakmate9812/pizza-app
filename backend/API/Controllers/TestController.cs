@@ -7,9 +7,10 @@ namespace API.Controllers
     public class TestController : Controller
     {
         [HttpGet("test")]
-        public string GetTestData()
+        public IActionResult GetTestData()
         {
-            return "ok";
+            var data = new { message = "successfull api call" };
+            return Ok(data);
         }
     }
 }
