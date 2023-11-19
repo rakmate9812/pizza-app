@@ -8,16 +8,16 @@ namespace API.Controllers
     [Route("pizza")]
     public class PizzaController : Controller
     {
-        private readonly AppDbContext _DbContext;
+        private readonly AppDbContext _context;
         public PizzaController(AppDbContext appDbContext)
         {
-            _DbContext = appDbContext;
+            _context = appDbContext;
         }
 
         [HttpGet("all")]
         public async Task<List<Pizza>> GetAllPizza()
         {
-            var data = await _DbContext.Pizzas.ToListAsync();
+            var data = await _context.Pizzas.ToListAsync();
             return data;
         }
 
