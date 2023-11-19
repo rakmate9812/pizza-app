@@ -13,14 +13,22 @@ const routes: Array<RouteConfig> = [
   {
     path: "/about",
     name: "about",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    component: () => import("../views/AboutView.vue"),
   },
   {
-    path: "/menu",
-    name: "menu",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MenuView.vue"),
+    path: "/review",
+    name: "review",
+    component: () => import("../views/ReviewView.vue"),
+  },
+  {
+    path: "/browse",
+    name: "browse",
+    component: () => import("../views/BrowseView.vue"),
+  },
+  {
+    path: "/settings",
+    name: "settings",
+    component: () => import("../views/SettingsView.vue"),
   },
 ];
 

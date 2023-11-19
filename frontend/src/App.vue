@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/menu">Menu</router-link>
-    </nav>
+    <AppMenu />
     <router-view />
   </div>
 </template>
+
+<script lang="ts">
+import AppMenu from "@/AppMenu.vue";
+import Vue from "vue";
+
+export default Vue.extend({
+  components: { AppMenu },
+});
+</script>
 
 <style lang="scss">
 #app {
