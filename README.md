@@ -3,8 +3,8 @@
 This is a full-stack web application showcasing my current skills. The app consists of the following components:
 
 - An Azure MS SQL database with a server
-- A back-end application using ASP.NET 8, connecting with EntityFramework to the database (Code-First approach), and web APIs
-- A front-end application using Vue 2, Typescript, Routing, and smaller frameworks for design
+- A back-end application using ASP.NET 8
+- A front-end application using Vue 2 + Typescript
 
 ## Overview
 
