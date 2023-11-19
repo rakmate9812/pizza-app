@@ -1,32 +1,27 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view />
+    <AppMenu />
+    <v-container id="main">
+      <router-view />
+    </v-container>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script lang="ts">
+import Vue from "vue";
+import AppMenu from "./AppMenu.vue";
+
+export default Vue.extend({
+  components: { AppMenu },
+});
+</script>
+
+<style>
+body {
+  font-family: "Roboto", sans-serif;
 }
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+#main {
+  padding-top: 5rem;
 }
 </style>
