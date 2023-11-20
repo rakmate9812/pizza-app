@@ -1,4 +1,5 @@
 ﻿using API.Database.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ namespace API.Controllers
             _context = appDbContext;
         }
 
+        [Authorize]
         [HttpGet("all")]
         public async Task<List<Pizza>> GetAllPizza()
         {
