@@ -1,5 +1,7 @@
 ﻿using API.Database.DTOs;
 using API.Database.Models;
+using API.Repositories;
+using API.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,94 +18,47 @@ namespace API.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _config;
+        private readonly UserRepository _userRepository;
 
         public AuthController(AppDbContext context, IConfiguration config)
         {
             _context = context;
             _config = config;
+            _userRepository = new UserRepository(_context);
+
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register([FromBody] UserDto request)
+        public ActionResult<User> Register([FromBody] UserDto request)
         {
-            if (ModelState.IsValid)
+            if (_userRepository.GetByUserName(request.Username) != null) return BadRequest("A user exists with the same username");
+
+            PasswordHasher.CreatePasswordHash(request.Password, out byte[] hash, out byte[] salt);
+
+            var user = new User()
             {
-                // check if the username exists
-                CreatePasswordHash(request.Password, out byte[] hash, out byte[] salt);
-                var user = new User();
-                user.Username = request.Username;
-                user.PasswordHash = hash;
-                user.PasswordSalt = salt;
+                Username = request.Username,
+                PasswordHash = hash,
+                PasswordSalt = salt
+            };
 
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+            _context.Users.Add(user);
+            _context.SaveChanges();
 
-                return Ok(user);
-            }
-
-            return BadRequest("Invalid User data");
+            return Ok(user);
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login([FromBody] UserDto request)
+        public ActionResult<string> Login([FromBody] UserDto request)
         {
-            var user = _context.Users.Where(u => string.Equals(u.Username, request.Username)).FirstOrDefault();
+            var user = _userRepository.GetByUserName(request.Username);
 
-            if (user == null)
-            {
-                return NotFound("User not found with the given username");
-            }
+            if (user == null) return NotFound("User not found with the given username");
 
-            if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-            {
-                return BadRequest("Wrong password");
-            }
+            if (!PasswordHasher.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt)) return BadRequest("Wrong password");
 
-            return Ok(CreateToken(user));
+            return Ok(JwtHelper.CreateTokenForUser(_config, user));
         }
 
-        private string CreateToken(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username)
-            };
-
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("JWTSettings:Secret").Value!));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                issuer: "https://id.rakmate9812.com",
-                audience: "https://pizza-app.rakmate9812.com",
-                claims: claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: creds
-                );
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
-        }
-
-        private void CreatePasswordHash(string password, out byte[] hash, out byte[] salt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-
-                salt = hmac.Key;
-                hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        private bool VerifyPasswordHash(string password, byte[] hash, byte[] salt)
-        {
-            using (var hmac = new HMACSHA512(salt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-
-                return computedHash.SequenceEqual(hash);
-            }
-        }
     }
 }

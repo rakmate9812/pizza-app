@@ -1,4 +1,6 @@
-﻿using API.Database.Models;
+﻿using API.Database.DTOs;
+using API.Database.Models;
+using API.Migrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +17,28 @@ namespace API.Controllers
             _context = appDbContext;
         }
 
-        [Authorize]
         [HttpGet("all")]
-        public async Task<List<Pizza>> GetAllPizza()
+        public List<Pizza> GetAll()
         {
-            var data = await _context.Pizzas.ToListAsync();
+            var data = _context.Pizzas.ToList();
             return data;
+        }
+
+        [Authorize]
+        [HttpPost("create")]
+        public ActionResult<Pizza> Create([FromBody] PizzaDto request)
+        {
+            var pizza = new Pizza()
+            {
+                Name = request.Name,
+                Description = request.Description,
+                TimeCreated = DateTime.Now,
+            };
+
+            _context.Pizzas.Add(pizza);
+            _context.SaveChanges();
+
+            return Ok(pizza);
         }
 
     }

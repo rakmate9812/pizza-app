@@ -1,4 +1,5 @@
 global using API.Database;
+using API;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -8,9 +9,9 @@ var config = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<AppDbContext>();
+builder.Services.AddScoped<AppDbContext>(); // Dependency injection
 
-//Setting up the authentication scheme
+// Setting up the authentication scheme
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -49,7 +50,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+app.UseAuthentication(); // Always before autho 
 app.UseAuthorization();
 
 app.MapControllers();
