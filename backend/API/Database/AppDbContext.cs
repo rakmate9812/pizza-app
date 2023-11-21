@@ -15,7 +15,7 @@ namespace API.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_config.GetConnectionString("DatabaseConnection"));
+            optionsBuilder.UseSqlServer(_config.GetConnectionString("Local"));
         }
 
         public DbSet<Pizza> Pizzas { get; set; }
