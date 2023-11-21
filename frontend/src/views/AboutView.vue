@@ -25,9 +25,9 @@
         <h2 class="display-1">Contact</h2>
         <p class="body-1">
           <ul>
-            <li><strong>Azure MS SQL Database:</strong> Storage of Pizza'ed reviews and users.</li>
-            <li><strong>ASP.NET 8 Back-end:</strong> The back-end, powered by ASP.NET 8. It exposes web APIs, enabling smooth communication between the front-end and the database.</li>
-            <li><strong>Vue 2 Front-end:</strong> The visually appealing front-end is built using Vue 2, incorporating Typescript to provide an intuitive and engaging user interface.</li>
+            <li>via Email</li>
+            <li>via Github</li>
+            <li>link to my CV</li>
           </ul>
         </p>
       </v-col>

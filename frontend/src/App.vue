@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import AppMenu from "./AppMenu.vue";
+import AppMenu from "./components/AppMenu.vue";
 
 export default Vue.extend({
   components: { AppMenu },
