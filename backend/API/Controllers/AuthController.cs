@@ -29,11 +29,11 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult<User> Register([FromBody] UserDto request)
+        public ActionResult Register([FromBody] UserDto request)
         {
             if (_userRepository.GetByUserName(request.Username) != null) return BadRequest("A user exists with the same username");
 
-            PasswordHasher.CreatePasswordHash(request.Password, out byte[] hash, out byte[] salt);
+            UserService.CreatePasswordHash(request.Password, out byte[] hash, out byte[] salt);
 
             var user = new User()
             {
@@ -45,7 +45,7 @@ namespace API.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return Ok(user);
+            return Ok();
         }
 
         [HttpPost("login")]
@@ -55,9 +55,9 @@ namespace API.Controllers
 
             if (user == null) return NotFound("User not found with the given username");
 
-            if (!PasswordHasher.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt)) return BadRequest("Wrong password");
+            if (!UserService.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt)) return BadRequest("Wrong password");
 
-            return Ok(JwtHelper.CreateTokenForUser(_config, user));
+            return Ok(UserService.CreateToken(_config, user));
         }
 
     }
