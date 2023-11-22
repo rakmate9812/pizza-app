@@ -26,9 +26,9 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/BrowseView.vue"),
   },
   {
-    path: "/settings",
-    name: "settings",
-    component: () => import("../views/SettingsView.vue"),
+    path: "/login",
+    name: "login",
+    component: () => import("../views/LoginView.vue"),
   },
 ];
 

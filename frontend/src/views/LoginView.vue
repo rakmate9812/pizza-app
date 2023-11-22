@@ -1,43 +1,24 @@
 <template>
   <div>
-    <h1>You were Pizza'ed</h1>
+    <h1>{{ loginTitle }}</h1>
     <div class="form-container">
       <div>
         <v-form @submit.prevent="submitForm">
           <v-row>
             <v-col cols="12">
-              <v-file-input label="Evidence (photo)"></v-file-input>
+              <v-text-field label="Username"></v-text-field>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12">
-              <v-text-field label="Name of the Victim"></v-text-field>
+              <v-text-field type="password" label="Password"> </v-text-field>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12">
-              <v-textarea rows="1" label="Description"></v-textarea>
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col cols="12">
-              <v-text-field label="Recipe link"></v-text-field>
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col cols="12">
-              <v-label>How delicious was it?</v-label>
-              <v-rating half-increments></v-rating>
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col cols="12">
-              <v-btn type="submit">Submit</v-btn>
+              <v-btn type="submit">Login</v-btn>
             </v-col>
           </v-row>
         </v-form>
@@ -48,7 +29,28 @@
 
 <script lang="ts">
 import Vue from "vue";
+
 export default Vue.extend({
+  data() {
+    return {
+      loginTitleList: [
+        "Slice into Your Account",
+        "Unlock the Flavor Vault",
+        "Cheesy Login Goodness",
+        "Crust in Time: Login",
+        "Your Slice, Your Space: Log In",
+        "Login for a Tasty Experience",
+        "Bite into Your Account",
+      ] as string[],
+    };
+  },
+
+  computed: {
+    loginTitle(): string {
+      return this.loginTitleList[Math.floor(Math.random() * this.loginTitleList.length)];
+    },
+  },
+
   methods: {
     submitForm() {
       console.log("form submit");
@@ -70,7 +72,7 @@ h1 {
 
 form {
   min-width: 600px;
-  padding: 0 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(225, 202, 202, 0.1);

@@ -10,10 +10,9 @@
             </router-link>
           </v-col>
           <v-col class="horizontally-centered">
-            <v-btn class="nav-button" text to="/">Home</v-btn>
             <v-btn class="nav-button" text to="/review">Review</v-btn>
             <v-btn class="nav-button" text to="/browse">Browse</v-btn>
-            <v-btn class="nav-button" text to="/settings">Settings</v-btn>
+            <v-btn class="nav-button" text to="/login">Login</v-btn>
             <v-btn class="nav-button" text to="/about">About</v-btn>
           </v-col>
         </v-row>
@@ -29,8 +28,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Marhey:wght@300;400;500;600;700&display=swap");
-
 .horizontally-centered {
   margin: auto;
 }

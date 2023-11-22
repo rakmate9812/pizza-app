@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import AppMenu from "./AppMenu.vue";
+import AppMenu from "./components/AppMenu.vue";
 
 export default Vue.extend({
   components: { AppMenu },
@@ -17,8 +17,10 @@ export default Vue.extend({
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Marhey:wght@300;400;500;600;700&family=Playpen+Sans:wght@100;200;300;400;500;600;700;800&display=swap");
+
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Playpen Sans", cursive;
 }
 
 #main {
