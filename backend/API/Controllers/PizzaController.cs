@@ -33,6 +33,9 @@ namespace API.Controllers
                 Name = request.Name,
                 Description = request.Description,
                 TimeCreated = DateTime.Now,
+                ImageData = request.ImageData,
+                RecipeLink = request.RecipeLink,
+                Rating = request.Rating,
             };
 
             _context.Pizzas.Add(pizza);
