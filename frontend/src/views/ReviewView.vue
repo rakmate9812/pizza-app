@@ -3,35 +3,58 @@
     <h1>You were Pizza'ed</h1>
     <div class="form-container">
       <div>
-        <v-form @submit.prevent="submitForm">
+        <v-form ref="form" v-model="valid" @submit.prevent="submitForm">
           <v-row>
             <v-col cols="12">
-              <v-file-input label="Evidence (photo)"></v-file-input>
+              <v-row v-if="uploadedImgSrc != null" class="file-row">
+                <v-card>
+                  <v-img :src="uploadedImgSrc" alt="a nice pizza"></v-img>
+                </v-card>
+              </v-row>
+              <v-row>
+                <v-file-input
+                  id="inputImage"
+                  label="Evidence (photo)"
+                  @change="handleFileChange"
+                  @click:clear="handleFileClear"
+                  style="margin-top: 20px"
+                  :rules="[(v) => !!v || 'Upload an apetizing picture first!']"
+                  required></v-file-input>
+              </v-row>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12">
-              <v-text-field label="Name of the Victim"></v-text-field>
+              <v-text-field
+                v-model="newPizza.name"
+                label="Name of the Victim"
+                :rules="[(v) => !!v || 'You must name your slice!']"
+                required></v-text-field>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12">
-              <v-textarea rows="1" label="Description"></v-textarea>
+              <v-textarea
+                v-model="newPizza.description"
+                rows="1"
+                label="Description"></v-textarea>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12">
-              <v-text-field label="Recipe link"></v-text-field>
+              <v-text-field
+                v-model="newPizza.recipeLink"
+                label="Recipe link"></v-text-field>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12">
               <v-label>How delicious was it?</v-label>
-              <v-rating half-increments></v-rating>
+              <v-rating v-model="newPizza.rating"></v-rating>
             </v-col>
           </v-row>
 
@@ -48,10 +71,79 @@
 
 <script lang="ts">
 import Vue from "vue";
+import store from "@/models/Pizza/services/PizzaStore";
+import Pizza, { defaultPizza } from "@/models/Pizza/Pizza";
+
 export default Vue.extend({
+  data() {
+    return {
+      store: store,
+      newPizza: { ...defaultPizza } as Pizza,
+      uploadedImgSrc: null as string | null,
+
+      valid: false as boolean,
+    };
+  },
+
   methods: {
-    submitForm() {
-      console.log("form submit");
+    async submitForm() {
+      this.valid = await (this.$refs.form as any)?.validate(); // Vuetify's built in validate funtion
+
+      if (this.valid) {
+        // console.log(this.newPizza);
+        const ret = await this.store.createPizza(this.newPizza); // TODO - navigate to the page
+        console.log(ret);
+      }
+    },
+
+    handleFileChange() {
+      const fileInput = document.getElementById(
+        "inputImage"
+      ) as HTMLInputElement;
+      const file = fileInput.files?.[0];
+
+      if (file !== undefined) {
+        if (!file.type.startsWith("image/"))
+          console.error("Invalid file type. Please upload an image."); // TODO - let the user know about this
+
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            // console.log(reader.result);
+            this.uploadedImgSrc = reader.result as string;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    },
+
+    handleFileClear() {
+      this.uploadedImgSrc = null;
+
+      const fileInput = document.getElementById(
+        "inputImage"
+      ) as HTMLInputElement;
+
+      if (fileInput) {
+        fileInput.value = ""; // Clearing the input
+        fileInput.blur(); // Losing focus
+        this.resetFormValidation();
+      }
+    },
+
+    resetForm() {
+      this.handleFileClear();
+      (this.$refs.form as any)?.reset(); // Vuetify built-in
+    },
+
+    resetFormValidation() {
+      (this.$refs.form as any)?.resetValidation(); // Vuetify built-in
+    },
+  },
+
+  watch: {
+    uploadedImgSrc(newVal) {
+      this.newPizza.imageData = newVal;
     },
   },
 });
@@ -78,5 +170,15 @@ form {
 
 button {
   margin-top: 20px;
+}
+
+.file-row {
+  display: flex;
+  justify-content: center;
+}
+
+.file-row .v-card {
+  margin: 2rem;
+  max-width: 200px;
 }
 </style>

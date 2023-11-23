@@ -3,6 +3,7 @@
     <v-row class="search-row">
       <!-- v-model="searchTerm" -->
       <v-text-field
+        v-model="searchText"
         class="search-bar"
         label="Find Your Favorite Pizza"
         solo
@@ -28,7 +29,7 @@
               @click="handleItemClick(item)"
               class="pizza-card"
               :class="{ 'card-hover': hover }">
-              <!-- <v-img :src="TODO" height="200" loading="lazy"></v-img> -->
+              <v-img :src="item.imageData" height="200" loading="lazy"></v-img>
               <v-card-title class="pizza-name">{{ item.name }}</v-card-title>
               <v-card-text class="pizza-description">{{
                 item.description
@@ -53,13 +54,14 @@ export default Vue.extend({
   data() {
     return {
       store: store,
+      searchText: null as string | null, // TODO
       itemsPerPage: 4,
       currentPage: 1,
     };
   },
 
-  beforeMount() {
-    this.store.loadPizzas();
+  async beforeMount() {
+    await this.store.loadPizzas();
   },
 
   computed: {

@@ -47,13 +47,15 @@ export default Vue.extend({
 
   computed: {
     loginTitle(): string {
-      return this.loginTitleList[Math.floor(Math.random() * this.loginTitleList.length)];
+      return this.loginTitleList[
+        Math.floor(Math.random() * this.loginTitleList.length)
+      ];
     },
   },
 
   methods: {
     submitForm() {
-      console.log("form submit");
+      console.log("form submit"); // TODO
     },
   },
 });

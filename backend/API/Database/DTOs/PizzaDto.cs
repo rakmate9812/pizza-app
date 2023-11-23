@@ -4,11 +4,11 @@ namespace API.Database.DTOs
 {
     public class PizzaDto
     {
-        // The users sends this data transfer object from the front-end
+        // Data coming from the frontend
         [Required]
         public string Name { get; set; }
         public string? Description { get; set; }
-        public byte[]? ImageData { get; set; }
+        public string? ImageData { get; set; }
         public string? RecipeLink { get; set; }
 
         [Required]

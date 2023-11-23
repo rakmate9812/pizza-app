@@ -11,7 +11,6 @@ using System.Security.Cryptography;
 
 namespace API.Controllers
 {
-    //TODO - create a user repository for the methods, and refactor a bit
     [Route("auth")]
     [ApiController]
     public class AuthController : Controller

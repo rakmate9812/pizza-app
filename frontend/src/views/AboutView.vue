@@ -34,3 +34,7 @@
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+/* TODO */
+</style>

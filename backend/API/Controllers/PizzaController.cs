@@ -24,7 +24,7 @@ namespace API.Controllers
             return data;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("create")]
         public ActionResult<Pizza> Create([FromBody] PizzaDto request)
         {

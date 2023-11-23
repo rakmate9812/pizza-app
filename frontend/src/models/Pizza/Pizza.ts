@@ -1,9 +1,9 @@
 export default interface Pizza {
   id: number;
   name: string;
-  description: string | null;
-  imageData: Uint8Array | null;
-  recipeLink: string | null;
+  description: string;
+  imageData: string;
+  recipeLink: string;
   timeCreated: Date;
   rating: number;
 }
@@ -11,9 +11,9 @@ export default interface Pizza {
 export const defaultPizza: Pizza = {
   id: 0,
   name: "",
-  description: null,
-  imageData: null,
-  recipeLink: null,
+  description: "",
+  imageData: "",
+  recipeLink: "",
   timeCreated: new Date(2000, 0, 1),
-  rating: 0,
+  rating: 3,
 };
