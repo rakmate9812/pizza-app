@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <v-row class="search-row">
-      <!-- v-model="searchTerm" -->
       <v-text-field
         v-model="searchText"
         class="search-bar"
@@ -31,11 +30,18 @@
               :class="{ 'card-hover': hover }">
               <v-img :src="item.imageData" height="200" loading="lazy"></v-img>
               <v-card-title class="pizza-name">{{ item.name }}</v-card-title>
-              <v-card-text class="pizza-description">{{
-                item.description
-              }}</v-card-text>
+              <v-card-text
+                v-if="item.description.length > 0"
+                class="pizza-description"
+                >{{ item.description }}</v-card-text
+              >
+              <v-card-text v-else class="pizza-description">
+                <i>No description</i>
+                <br />
+              </v-card-text>
               <v-card-subtitle
-                >Upload Date: {{ item.timeCreated }}</v-card-subtitle
+                >Upload Date:
+                {{ convertDate(item.timeCreated) }}</v-card-subtitle
               >
             </v-card>
           </template>
@@ -49,6 +55,7 @@
 import Vue from "vue";
 import store from "@/models/Pizza/services/PizzaStore";
 import Pizza from "@/models/Pizza/Pizza";
+import dayjs from "dayjs";
 
 export default Vue.extend({
   data() {
@@ -82,7 +89,11 @@ export default Vue.extend({
     },
 
     handleItemClick(item: Pizza) {
-      console.log(item); //TODO
+      this.$router.push(`${item.id}`);
+    },
+
+    convertDate(date: Date): string {
+      return dayjs(date).format("YYYY-MM-DD");
     },
   },
 });
@@ -96,21 +107,21 @@ export default Vue.extend({
 }
 
 .search-bar {
-  max-width: 500px;
+  max-width: 25rem;
 }
 
 .pizza-card {
-  max-height: 400;
+  height: 22rem;
 }
 
 .pizza-name {
-  max-height: 50px;
+  max-height: 3rem;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .pizza-description {
-  max-height: 45px;
+  height: 3rem;
   overflow: hidden;
   text-overflow: ellipsis;
 }

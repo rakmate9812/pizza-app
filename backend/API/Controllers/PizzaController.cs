@@ -18,13 +18,23 @@ namespace API.Controllers
         }
 
         [HttpGet("all")]
-        public List<Pizza> GetAll()
+        public ActionResult<List<Pizza>> GetAll()
         {
             var data = _context.Pizzas.ToList();
-            return data;
+            return Ok(data);
         }
 
-        //[Authorize]
+        [HttpGet("{id}")]
+        public ActionResult<Pizza> Get(int id)
+        {
+            var data = _context.Find<Pizza>(id);
+
+            if (data == null) return NotFound("Pizza not found with the given identifier");
+
+            return Ok(data);
+        }
+
+        [Authorize]
         [HttpPost("create")]
         public ActionResult<Pizza> Create([FromBody] PizzaDto request)
         {

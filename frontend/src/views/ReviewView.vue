@@ -91,8 +91,8 @@ export default Vue.extend({
 
       if (this.valid) {
         // console.log(this.newPizza);
-        const ret = await this.store.createPizza(this.newPizza); // TODO - navigate to the page
-        console.log(ret);
+        const ret = await this.store.createPizza(this.newPizza);
+        this.$router.push(`${ret.id}`);
       }
     },
 
@@ -161,7 +161,7 @@ h1 {
 }
 
 form {
-  min-width: 600px;
+  min-width: 30rem;
   padding: 0 20px 20px 20px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
@@ -179,6 +179,6 @@ button {
 
 .file-row .v-card {
   margin: 2rem;
-  max-width: 200px;
+  max-width: 10rem;
 }
 </style>

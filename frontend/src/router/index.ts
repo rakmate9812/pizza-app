@@ -30,6 +30,11 @@ const routes: Array<RouteConfig> = [
     name: "login",
     component: () => import("../views/LoginView.vue"),
   },
+  {
+    path: "/:pizzaId",
+    name: "pizzaDetails",
+    component: () => import("../views/PizzaDetailsView.vue"),
+  },
 ];
 
 const router = new VueRouter({
