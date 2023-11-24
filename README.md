@@ -1,10 +1,6 @@
 # Pizza App
 
-This is a full-stack web application showcasing my current skills. The app consists of the following components:
-
-- An Azure MS SQL database with a server
-- A back-end application using ASP.NET 8
-- A front-end application using Vue 2 + Typescript
+This is a full-stack web application showcasing my current skills.
 
 ## Overview
 
