@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import bus from "@/services/eventBus";
 import Pizza from "../Pizza";
 
 export default class PizzaApi {
@@ -14,7 +15,6 @@ export default class PizzaApi {
       const response: AxiosResponse<Pizza[]> = await axios.request(config);
       return response.data;
     } catch (error) {
-      console.log(error);
       throw new Error("Something went wrong...");
     }
   }
@@ -31,7 +31,6 @@ export default class PizzaApi {
       const response: AxiosResponse<Pizza> = await axios.request(config);
       return response.data;
     } catch (error) {
-      console.log(error);
       throw new Error("Something went wrong...");
     }
   }
@@ -51,11 +50,16 @@ export default class PizzaApi {
     };
 
     try {
+      bus.$emit("start-loading");
       const response: AxiosResponse<Pizza> = await axios.request(config);
       return response.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.response.status === 401) {
+        throw new Error("Unauthorized access!");
+      }
       throw new Error("Something went wrong...");
+    } finally {
+      bus.$emit("stop-loading");
     }
   }
 }

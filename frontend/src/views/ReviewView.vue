@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading-spinner ref="loadingSpinner"></loading-spinner>
     <h1>You were Pizza'ed</h1>
     <div class="form-container">
       <div>
@@ -72,9 +73,15 @@
 <script lang="ts">
 import Vue from "vue";
 import store from "@/models/Pizza/services/PizzaStore";
+import bus from "@/services/eventBus";
 import Pizza, { defaultPizza } from "@/models/Pizza/Pizza";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 export default Vue.extend({
+  components: {
+    LoadingSpinner,
+  },
+
   data() {
     return {
       store: store,

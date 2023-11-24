@@ -63,12 +63,14 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 100vh;
+  /* max-height: 600px; */
+  margin: 0 0 10px;
 }
 
 .pizza-card {
   display: flex;
   max-width: 50%;
+  /* max-height: 60vh; */
 }
 
 .pizza-image {
