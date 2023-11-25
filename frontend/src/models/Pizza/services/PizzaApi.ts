@@ -14,7 +14,8 @@ export default class PizzaApi {
     try {
       const response: AxiosResponse<Pizza[]> = await axios.request(config);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error);
       throw new Error("Something went wrong...");
     }
   }
@@ -30,12 +31,13 @@ export default class PizzaApi {
     try {
       const response: AxiosResponse<Pizza> = await axios.request(config);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error);
       throw new Error("Something went wrong...");
     }
   }
 
-  public static async create(pizza: Pizza): Promise<Pizza> {
+  public static async create(pizza: Pizza, token: string): Promise<Pizza> {
     const data = JSON.stringify(pizza);
     const config = {
       method: "post",
@@ -43,8 +45,7 @@ export default class PizzaApi {
       url: "https://localhost:7172/pizza/create",
       headers: {
         "Content-Type": "application/json",
-        // Authorization:
-        //   "Bearer tokenWillBeHere", //TODO
+        Authorization: "Bearer " + token,
       },
       data: data,
     };

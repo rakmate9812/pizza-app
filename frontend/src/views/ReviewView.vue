@@ -1,70 +1,78 @@
 <template>
   <div>
     <loading-spinner ref="loadingSpinner"></loading-spinner>
-    <h1>You were Pizza'ed</h1>
-    <div class="form-container">
-      <div>
-        <v-form ref="form" v-model="valid" @submit.prevent="submitForm">
-          <v-row>
-            <v-col cols="12">
-              <v-row v-if="uploadedImgSrc != null" class="file-row">
-                <v-card>
-                  <v-img :src="uploadedImgSrc" alt="a nice pizza"></v-img>
-                </v-card>
-              </v-row>
-              <v-row>
-                <v-file-input
-                  id="inputImage"
-                  label="Evidence (photo)"
-                  @change="handleFileChange"
-                  @click:clear="handleFileClear"
-                  style="margin-top: 20px"
-                  :rules="[(v) => !!v || 'Upload an apetizing picture first!']"
-                  required></v-file-input>
-              </v-row>
-            </v-col>
-          </v-row>
 
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                v-model="newPizza.name"
-                label="Name of the Victim"
-                :rules="[(v) => !!v || 'You must name your slice!']"
-                required></v-text-field>
-            </v-col>
-          </v-row>
+    <InfoWindow
+      v-if="!$store.getters.isLoggedIn"
+      infoMessage="You have to log in first!"></InfoWindow>
+    <div v-else>
+      <h1>You were Pizza'ed</h1>
+      <div class="form-container">
+        <div>
+          <v-form ref="form" v-model="valid" @submit.prevent="submitForm">
+            <v-row>
+              <v-col cols="12">
+                <v-row v-if="uploadedImgSrc != null" class="file-row">
+                  <v-card>
+                    <v-img :src="uploadedImgSrc" alt="a nice pizza"></v-img>
+                  </v-card>
+                </v-row>
+                <v-row>
+                  <v-file-input
+                    id="inputImage"
+                    label="Evidence (photo)"
+                    @change="handleFileChange"
+                    @click:clear="handleFileClear"
+                    style="margin-top: 20px"
+                    :rules="[
+                      (v) => !!v || 'Upload an apetizing picture first!',
+                    ]"
+                    required></v-file-input>
+                </v-row>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col cols="12">
-              <v-textarea
-                v-model="newPizza.description"
-                rows="1"
-                label="Description"></v-textarea>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="newPizza.name"
+                  label="Name of the Victim"
+                  :rules="[(v) => !!v || 'You must name your slice!']"
+                  required></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                v-model="newPizza.recipeLink"
-                label="Recipe link"></v-text-field>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-textarea
+                  v-model="newPizza.description"
+                  rows="1"
+                  label="Description"></v-textarea>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col cols="12">
-              <v-label>How delicious was it?</v-label>
-              <v-rating v-model="newPizza.rating"></v-rating>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="newPizza.recipeLink"
+                  label="Recipe link"></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col cols="12">
-              <v-btn type="submit">Submit</v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
+            <v-row>
+              <v-col cols="12">
+                <v-label>How delicious was it?</v-label>
+                <v-rating v-model="newPizza.rating"></v-rating>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12">
+                <v-btn type="submit">Submit</v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
+        </div>
       </div>
     </div>
   </div>
@@ -73,18 +81,17 @@
 <script lang="ts">
 import Vue from "vue";
 import store from "@/models/Pizza/services/PizzaStore";
-import bus from "@/services/eventBus";
 import Pizza, { defaultPizza } from "@/models/Pizza/Pizza";
+import InfoWindow from "@/components/InfoWindow.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 export default Vue.extend({
-  components: {
-    LoadingSpinner,
-  },
+  components: { InfoWindow, LoadingSpinner },
 
   data() {
     return {
       store: store,
+
       newPizza: { ...defaultPizza } as Pizza,
       uploadedImgSrc: null as string | null,
 
@@ -98,7 +105,10 @@ export default Vue.extend({
 
       if (this.valid) {
         // console.log(this.newPizza);
-        const ret = await this.store.createPizza(this.newPizza);
+        const ret = await this.store.createPizza(
+          this.newPizza,
+          this.$store.getters.getToken
+        );
         this.$router.push(`${ret.id}`);
       }
     },

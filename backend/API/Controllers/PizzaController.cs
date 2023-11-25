@@ -29,7 +29,7 @@ namespace API.Controllers
         {
             var data = _context.Find<Pizza>(id);
 
-            if (data == null) return NotFound("Pizza not found with the given identifier");
+            if (data == null) return NotFound("Pizza not found with the given id");
 
             return Ok(data);
         }

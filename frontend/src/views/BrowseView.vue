@@ -61,6 +61,7 @@ export default Vue.extend({
   data() {
     return {
       store: store,
+
       searchText: null as string | null, // TODO
       itemsPerPage: 4,
       currentPage: 1,

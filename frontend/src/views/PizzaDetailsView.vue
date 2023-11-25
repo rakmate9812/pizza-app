@@ -7,14 +7,18 @@
       >
       <v-card-text class="pizza-card-text">
         <h2>{{ pizza.name }}</h2>
-        <p v-if="pizza.description.length > 0">{{ pizza.description }}</p>
+        <p v-if="pizza.description && pizza.description.length > 0">
+          {{ pizza.description }}
+        </p>
         <p v-else><i>No description</i></p>
         <p>
           <strong>Recipe Link:</strong>
           <br />
-          <a v-if="pizza.recipeLink.length > 0" :href="pizza.recipeLink">{{
-            pizza.recipeLink
-          }}</a>
+          <a
+            v-if="pizza.recipeLink && pizza.recipeLink.length > 0"
+            :href="pizza.recipeLink"
+            >{{ pizza.recipeLink }}</a
+          >
           <span v-else><i>No link provided</i></span>
         </p>
         <p><strong>Rating:</strong> {{ pizza.rating }}/5</p>

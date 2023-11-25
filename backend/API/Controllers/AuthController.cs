@@ -30,7 +30,7 @@ namespace API.Controllers
         [HttpPost("register")]
         public ActionResult Register([FromBody] UserDto request)
         {
-            if (_userRepository.GetByUserName(request.Username) != null) return BadRequest("A user exists with the same username");
+            if (_userRepository.GetByUserName(request.Username) != null) return BadRequest("Username is taken");
 
             UserService.CreatePasswordHash(request.Password, out byte[] hash, out byte[] salt);
 
@@ -44,7 +44,7 @@ namespace API.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return Ok();
+            return Created();
         }
 
         [HttpPost("login")]
@@ -52,7 +52,7 @@ namespace API.Controllers
         {
             var user = _userRepository.GetByUserName(request.Username);
 
-            if (user == null) return NotFound("User not found with the given username");
+            if (user == null) return NotFound("User not found with the requested username");
 
             if (!UserService.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt)) return BadRequest("Wrong password");
 

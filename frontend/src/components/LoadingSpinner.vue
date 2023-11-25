@@ -1,5 +1,3 @@
-<!-- LoadingSpinner.vue -->
-
 <template>
   <v-overlay :value="loading">
     <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -37,5 +35,7 @@ export default {
 </script>
 
 <style scoped>
-/* You can add styles for the overlay here if needed */
+.v-overlay {
+  z-index: 0;
+}
 </style>

@@ -50,7 +50,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); // Always before autho 
+app.UseAuthentication(); // Always before authorization
 app.UseAuthorization();
 
 app.MapControllers();
