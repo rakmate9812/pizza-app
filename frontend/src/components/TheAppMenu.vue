@@ -12,7 +12,14 @@
           <v-col class="horizontally-centered">
             <v-btn class="nav-button" text to="/review">Review</v-btn>
             <v-btn class="nav-button" text to="/browse">Browse</v-btn>
-            <v-btn class="nav-button" text to="/login">Login</v-btn>
+            <v-btn
+              v-if="!$store.getters.isLoggedIn"
+              class="nav-button"
+              text
+              to="/login"
+              >Login</v-btn
+            >
+            <v-btn v-else class="nav-button" text to="/logout">Logout</v-btn>
             <v-btn class="nav-button" text to="/about">About</v-btn>
           </v-col>
         </v-row>
@@ -20,12 +27,6 @@
     </v-app-bar>
   </div>
 </template>
-
-<script>
-export default {
-  name: "AppMenu",
-};
-</script>
 
 <style scoped>
 .horizontally-centered {

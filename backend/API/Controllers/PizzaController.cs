@@ -18,10 +18,20 @@ namespace API.Controllers
         }
 
         [HttpGet("all")]
-        public List<Pizza> GetAll()
+        public ActionResult<List<Pizza>> GetAll()
         {
             var data = _context.Pizzas.ToList();
-            return data;
+            return Ok(data);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Pizza> Get(int id)
+        {
+            var data = _context.Find<Pizza>(id);
+
+            if (data == null) return NotFound("Pizza not found with the given id");
+
+            return Ok(data);
         }
 
         [Authorize]
@@ -33,6 +43,9 @@ namespace API.Controllers
                 Name = request.Name,
                 Description = request.Description,
                 TimeCreated = DateTime.Now,
+                ImageData = request.ImageData,
+                RecipeLink = request.RecipeLink,
+                Rating = request.Rating,
             };
 
             _context.Pizzas.Add(pizza);

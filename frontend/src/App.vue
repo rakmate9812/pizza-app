@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AppMenu />
+    <TheAppMenu />
     <v-container id="main">
       <router-view />
     </v-container>
@@ -9,10 +9,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import AppMenu from "./components/AppMenu.vue";
+import TheAppMenu from "./components/TheAppMenu.vue";
 
 export default Vue.extend({
-  components: { AppMenu },
+  components: { TheAppMenu },
 });
 </script>
 
