@@ -1,5 +1,6 @@
 <template>
-  <v-container>
+  <div>
+    <loading-spinner ref="loadingSpinner"></loading-spinner>
     <v-row class="search-row">
       <v-text-field
         v-model="searchText"
@@ -48,16 +49,19 @@
         </v-hover>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import store from "@/models/Pizza/services/PizzaStore";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import Pizza from "@/models/Pizza/Pizza";
 import dayjs from "dayjs";
 
 export default Vue.extend({
+  components: { LoadingSpinner },
+
   data() {
     return {
       store: store,
@@ -68,6 +72,7 @@ export default Vue.extend({
     };
   },
 
+  // In beforeMount, the loading spinner does not gets displayed (unlike in mounted) - which is good I think
   async beforeMount() {
     await this.store.loadPizzas();
   },
@@ -85,8 +90,8 @@ export default Vue.extend({
   },
 
   methods: {
-    handleSearch() {
-      console.log("search"); //TODO
+    async handleSearch() {
+      await this.store.loadPizzas(); // TODO
     },
 
     handleItemClick(item: Pizza) {

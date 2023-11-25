@@ -12,11 +12,14 @@ export default class PizzaApi {
     };
 
     try {
+      bus.$emit("start-loading");
       const response: AxiosResponse<Pizza[]> = await axios.request(config);
       return response.data;
     } catch (error: any) {
       console.log(error);
       throw new Error("Something went wrong...");
+    } finally {
+      bus.$emit("stop-loading");
     }
   }
 
