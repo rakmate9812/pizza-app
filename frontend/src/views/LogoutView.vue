@@ -33,7 +33,7 @@ export default Vue.extend({
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh; /* Use 100% of the viewport height */
+  height: 50vh; /* Use 50% of the viewport height - the vertical center */
 }
 
 h1 {
