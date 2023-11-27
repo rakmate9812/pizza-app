@@ -178,6 +178,7 @@ h1 {
 }
 
 form {
+  background: white;
   min-width: 30rem;
   padding: 0 20px 20px 20px;
   border: 1px solid #e0e0e0;

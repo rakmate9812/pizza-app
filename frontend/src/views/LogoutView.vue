@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="main">
     <InfoWindow
       v-if="!$store.getters.isLoggedIn"
       infoMessage="You are not logged in!"></InfoWindow>
@@ -29,6 +29,13 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+#main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Use 100% of the viewport height */
+}
+
 h1 {
   margin-bottom: 10px;
   text-align: center;
