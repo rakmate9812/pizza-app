@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import bus from "@/services/eventBus";
 import Pizza from "../Pizza";
 
@@ -12,11 +12,14 @@ export default class PizzaApi {
     };
 
     try {
+      bus.$emit("start-loading");
       const response: AxiosResponse<Pizza[]> = await axios.request(config);
       return response.data;
     } catch (error: any) {
       console.log(error);
       throw new Error("Something went wrong...");
+    } finally {
+      bus.$emit("stop-loading");
     }
   }
 

@@ -21,6 +21,7 @@ export default Vue.extend({
 
 body {
   font-family: "Playpen Sans", cursive;
+  background: rgb(238, 238, 242);
 }
 
 #main {
