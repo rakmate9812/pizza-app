@@ -68,7 +68,7 @@ namespace API.Controllers
 
             if (data.Items == null || data.Items.Count == 0)
             {
-                return NotFound("Pizza not found with the search term!");
+                return NotFound("Pizza not found!");
             }
 
             return Ok(data);
