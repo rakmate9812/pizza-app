@@ -1,3 +1,4 @@
+/** The backend entity of Pizza */
 export default interface Pizza {
   id: number;
   name: string;

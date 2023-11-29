@@ -103,7 +103,6 @@ export default Vue.extend({
   },
   mounted() {
     this.preloadImage();
-    console.log("imageloaded"); // this log appears first before the background picture
 
     this.resetScroll();
 
