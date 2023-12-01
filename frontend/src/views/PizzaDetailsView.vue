@@ -14,16 +14,15 @@
         <p>
           <strong>Recipe Link:</strong>
           <br />
-          <a
-            v-if="pizza.recipeLink && pizza.recipeLink.length > 0"
-            :href="pizza.recipeLink"
-            >{{ pizza.recipeLink }}</a
-          >
+          <a v-if="pizza.recipeLink && pizza.recipeLink.length > 0" :href="pizza.recipeLink">{{ pizza.recipeLink }}</a>
           <span v-else><i>No link provided</i></span>
         </p>
         <p><strong>Rating:</strong> {{ pizza.rating }}/5</p>
       </v-card-text>
     </v-card>
+    <v-app>
+      <image-popup ref="imagePopup"></image-popup>
+    </v-app>
   </div>
 </template>
 
@@ -31,8 +30,10 @@
 import Vue from "vue";
 import Pizza, { defaultPizza } from "@/models/Pizza/Pizza";
 import store from "@/models/Pizza/services/PizzaStore";
+import ImagePopup from "@/components/ImagePopup.vue";
 
 export default Vue.extend({
+  components: { ImagePopup },
   data() {
     return {
       store: store,
@@ -46,12 +47,12 @@ export default Vue.extend({
 
   methods: {
     openImage() {
-      const imgWindow = window.open("");
-      if (imgWindow) {
-        imgWindow.document.write(
-          `<iframe width='100%' height='100%' src='${this.pizza.imageData}'></iframe>`
-        );
-      }
+      // const imgWindow = window.open("");
+      // if (imgWindow) {
+      //   imgWindow.document.write(`<iframe width='100%' height='100%' src='${this.pizza.imageData}'></iframe>`);
+      // }
+      // TODO
+      (this.$refs.imagePopup as any).openDialog(this.pizza.imageData);
     },
   },
 });
@@ -67,8 +68,8 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* max-height: 600px; */
   margin: 0 0 10px;
+  height: auto; /* Add this line */
 }
 
 .pizza-card {

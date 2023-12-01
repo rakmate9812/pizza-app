@@ -1,6 +1,13 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import bus from "@/services/eventBus";
 import Pizza from "../Pizza";
+import PaginatedPizzaResponse from "../PaginatedPizzaResponse";
+import PizzaSearch from "../PizzaSearch";
+
+interface PizzaResponse {
+  PaginatedResults: Pizza[];
+  TotalResults: number;
+}
 
 export default class PizzaApi {
   public static async getAll(): Promise<Pizza[]> {
@@ -15,9 +22,42 @@ export default class PizzaApi {
       bus.$emit("start-loading");
       const response: AxiosResponse<Pizza[]> = await axios.request(config);
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
-      throw new Error("Something went wrong...");
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data);
+      } else throw new Error("Something went wrong...");
+    } finally {
+      bus.$emit("stop-loading");
+    }
+  }
+
+  public static async getPaginatedWithSearchText(
+    searchText: string | null,
+    pageNum: number
+  ): Promise<PaginatedPizzaResponse> {
+    const data: PizzaSearch = { searchTerm: searchText };
+
+    const config: AxiosRequestConfig = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `https://localhost:7172/pizza/browse/${pageNum}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    try {
+      bus.$emit("start-loading");
+      const response: AxiosResponse<PaginatedPizzaResponse> =
+        await axios.request(config);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data);
+      } else throw new Error("Something went wrong...");
     } finally {
       bus.$emit("stop-loading");
     }
@@ -34,9 +74,11 @@ export default class PizzaApi {
     try {
       const response: AxiosResponse<Pizza> = await axios.request(config);
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
-      throw new Error("Something went wrong...");
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data);
+      } else throw new Error("Something went wrong...");
     }
   }
 
@@ -57,11 +99,10 @@ export default class PizzaApi {
       bus.$emit("start-loading");
       const response: AxiosResponse<Pizza> = await axios.request(config);
       return response.data;
-    } catch (error: any) {
-      if (error.response.status === 401) {
-        throw new Error("Unauthorized access!");
-      }
-      throw new Error("Something went wrong...");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data);
+      } else throw new Error("Something went wrong...");
     } finally {
       bus.$emit("stop-loading");
     }

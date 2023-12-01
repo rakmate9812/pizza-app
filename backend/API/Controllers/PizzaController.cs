@@ -1,9 +1,11 @@
 ﻿using API.Database.DTOs;
 using API.Database.Models;
 using API.Migrations;
+using API.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace API.Controllers
 {
@@ -12,11 +14,15 @@ namespace API.Controllers
     public class PizzaController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly PizzaRepository _pizzaRepository;
+
         public PizzaController(AppDbContext appDbContext)
         {
             _context = appDbContext;
+            _pizzaRepository = new PizzaRepository(appDbContext);
         }
 
+        // Not used
         [HttpGet("all")]
         public ActionResult<List<Pizza>> GetAll()
         {
@@ -52,6 +58,20 @@ namespace API.Controllers
             _context.SaveChanges();
 
             return Ok(pizza);
+        }
+
+        [HttpPost("browse/{pageNum}")]
+        public ActionResult<PaginatedPizzaSearchResult> GetPaginatedSearchResults([FromBody] PizzaSearchDto request, int pageNum)
+        {
+
+            var data = _pizzaRepository.GetPaginatedSearchResults(request.SearchTerm, pageNum, 4);
+
+            if (data.Items == null || data.Items.Count == 0)
+            {
+                return NotFound("Pizza not found!");
+            }
+
+            return Ok(data);
         }
 
     }
