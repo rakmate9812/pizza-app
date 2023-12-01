@@ -48,4 +48,10 @@ const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  // Scroll to the top of the page
+  window.scrollTo(0, 0);
+  next();
+});
+
 export default router;

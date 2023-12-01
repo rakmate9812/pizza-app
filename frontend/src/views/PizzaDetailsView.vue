@@ -51,9 +51,8 @@ export default Vue.extend({
       // if (imgWindow) {
       //   imgWindow.document.write(`<iframe width='100%' height='100%' src='${this.pizza.imageData}'></iframe>`);
       // }
-
+      // TODO
       (this.$refs.imagePopup as any).openDialog(this.pizza.imageData);
-      console.log();
     },
   },
 });
@@ -69,8 +68,8 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* max-height: 600px; */
   margin: 0 0 10px;
+  height: auto; /* Add this line */
 }
 
 .pizza-card {

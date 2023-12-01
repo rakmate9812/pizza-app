@@ -12,7 +12,7 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
+<script lang="ts">       
 import Vue from "vue";
 export default Vue.extend({
   data() {
