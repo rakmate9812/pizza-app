@@ -1,6 +1,7 @@
 # Pizza App
 
 This is a full-stack web application showcasing my current skills.
+Here are some pictures of the app's [homepage](https://imgur.com/bIYZMse), [login page](https://imgur.com/W6lA5ay), [browsing page](https://imgur.com/zGYwBFV) and [about page](https://imgur.com/5ZGgmF3). 
 
 ## Overview
 
