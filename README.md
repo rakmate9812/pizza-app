@@ -1,4 +1,4 @@
-# Pizza App
+# Pizza'ed
 
 This is a full-stack web application showcasing my current skills.
 Here are some pictures of the app's [home](https://imgur.com/bIYZMse), [login](https://imgur.com/W6lA5ay), [browse](https://imgur.com/zGYwBFV) and [about](https://imgur.com/5ZGgmF3) pages. 
